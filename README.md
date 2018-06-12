@@ -32,8 +32,8 @@ Run the following commands to apply and execute the OpenShift templates that wil
 ```bash
 find . | grep openshiftio | grep application | xargs -n 1 oc apply -f
 
-oc new-app --template=nodejs-istio-security-greeting-service -p SOURCE_REPOSITORY_URL=https://github.com/wildfly-swarm-openshiftio-boosters/nodejs-istio-security -p SOURCE_REPOSITORY_REF=master -p SOURCE_REPOSITORY_DIR=nodejs-istio-security-greeting
-oc new-app --template=nodejs-istio-security-name-service -p SOURCE_REPOSITORY_URL=https://github.com/wildfly-swarm-openshiftio-boosters/nodejs-istio-security -p SOURCE_REPOSITORY_REF=master -p SOURCE_REPOSITORY_DIR=nodejs-istio-security-name
+oc new-app --template=nodejs-istio-security-greeting-service -p SOURCE_REPOSITORY_URL=https://github.com/bucharest-gold/nodejs-istio-security -p SOURCE_REPOSITORY_REF=master -p SOURCE_REPOSITORY_DIR=greeting-service
+oc new-app --template=nodejs-istio-security-name-service -p SOURCE_REPOSITORY_URL=https://github.com/bucharest-gold/nodejs-istio-security -p SOURCE_REPOSITORY_REF=master -p SOURCE_REPOSITORY_DIR=name-service
 ```
 
 ## Use Cases
@@ -66,7 +66,7 @@ This can be done through the OpenShift Console UI or on the command line with:
 7. From the OpenShift Console UI, click on the URL route for the Greeting service and it will load the web page for the Booster.
 8. Clicking "Invoke" will result in an error appearing in the result box that looks like
     ```
-    HTTP Response Code `500` with cause: Failed to communicate with `nodejs-istio-security-name` due to: RESTEASY004655: Unable to invoke request
+    HTTP Response Code `500` with cause: Failed to communicate with 'nodejs-istio-security-name' due to: Error: read ECONNRESET
     ```
     This is because the Greeting service is outside Istio, and the Name service is inside.
     mTLS prevents services outside and inside the mesh from communicating with each other.
