@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: nodej-istio-security-gateway
+  name: nodejs-istio-security-gateway
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -16,22 +16,22 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: nodej-istio-security-greeting
+  name: nodejs-istio-security-greeting
 spec:
   hosts:
   - "*"
   gateways:
-  - nodej-istio-security-gateway
+  - nodejs-istio-security-gateway
   http:
   - match:
     - uri:
-        prefix: /nodej-istio-security/
+        prefix: /nodejs-istio-security/
     - uri:
-        prefix: /nodej-istio-security
+        prefix: /nodejs-istio-security
     rewrite:
       uri: /
     route:
     - destination:
-        host: nodej-istio-security-greeting
+        host: nodejs-istio-security-greeting
         port:
           number: 8080
