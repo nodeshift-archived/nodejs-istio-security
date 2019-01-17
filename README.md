@@ -6,27 +6,45 @@ Showcase mTLS and ACL of Istio with Node.js applications
 
 ## Prerequisites
 
-* Docker installed and running
-* OpenShift and Istio environment up and running with mTLS enabled (See https://github.com/openshift-istio/istio-docs/blob/master/user-journey.adoc for details)
+* Openshift 3.10 cluster with Istio. For local development, download the latest release from [Maistra](https://github.com/Maistra/origin/releases) and run:
 
-## Launcher Flow Setup
+```
+# Set oc to be the Maistra one
+oc cluster up --enable="*,istio"
+oc login -u system:admin
+oc apply -f https://raw.githubusercontent.com/Maistra/openshift-ansible/maistra-0.6/istio/cr-minimal.yaml -n istio-operator
+oc get pods -n istio-system -w
+```
+Wait until the `openshift-ansible-istio-installer-job-xxxx` job has completed. It can take several minutes. The OpenShift console is available on https://127.0.0.1:8443.
+
+* Create a new project/namespace on the cluster. This is where your application will be deployed.
+
+```
+oc login -u system:admin
+oc adm policy add-cluster-role-to-user admin developer --as=system:admin
+
+oc adm policy add-scc-to-user anyuid -z default -n myproject
+oc adm policy add-scc-to-user privileged -z default -n myproject
+
+oc adm policy add-scc-to-user anyuid -z sa-greeting -n myproject
+oc adm policy add-scc-to-user privileged -z sa-greeting -n myproject
+
+oc adm policy add-scc-to-user anyuid -z sa-name -n myproject
+oc adm policy add-scc-to-user privileged -z sa-name -n myproject
+
+oc login -u developer -p developer
+oc new-project <whatever valid project name you want> # not required
+```
+
+### Build and Deploy the Application
+
+#### Launcher Flow Setup
 
 If the Booster is installed through the Launcher and the Continuous Delivery flow, no additional steps are necessary.
 
 Skip to the _Use Cases_ section.
 
-## Local Source to Image Build (S2I)
-
-### Prepare the Namespace
-
-Create a new namespace/project:
-```
-oc new-project <whatever valid project name you want>
-```
-
-### Build and Deploy the Application
-
-#### With Source to Image build (S2I)
+#### With Source to Image build (S2I))
 
 Run the following commands to apply and execute the OpenShift templates that will configure and deploy the applications:
 ```bash
