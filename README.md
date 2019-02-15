@@ -1,5 +1,7 @@
 # Istio Security Mission for Node.js
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nodeshift-starters/nodejs-istio-security.svg)](https://greenkeeper.io/)
+
 ## Purpose
 
 Showcase mTLS and ACL of Istio with Node.js applications
